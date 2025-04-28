@@ -17,6 +17,8 @@
 
     npm i --save-dev dotenv
 
+    npm i body-parser
+
 
 ===== To Run the Server =====
 

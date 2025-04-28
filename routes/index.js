@@ -1,3 +1,5 @@
+/* routes\index.js */
+
 // Require necessary libraries and global variables
 const express = require('express');
 const router = express.Router();
