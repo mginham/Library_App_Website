@@ -19,6 +19,8 @@
 
     npm i body-parser
 
+    npm i multer
+
 
 ===== To Run the Server =====
 

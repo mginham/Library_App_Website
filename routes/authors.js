@@ -7,7 +7,7 @@ const router = express.Router();
 // Import modules
 const Author = require('../models/author');
 
-// Route for getting all authors
+// Route - Get all authors
 router.get('/', async (req, res) => {
     let searchOptions = {};
 
@@ -29,12 +29,12 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Route for displaying new author form
+// Route - Display new author form
 router.get('/new', (req, res) => {
-    res.render('authors/new');
+    res.render('authors/new', {author: new Author()});
 });
 
-// Route for creating a new author
+// Route - Create a new author
 router.post('/', async (req, res) => {
     // Get author name from user input
     const author = new Author({
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
 
         // Upon success, redirect to newly created author page
         // res.redirect(`authors/${newAuthor.id}`); // TODO: create author page and uncomment this line
-        res.render('authors'); // TODO: delete once author page is live
+        res.redirect('authors'); // TODO: delete once author page is live
 
     } catch (err) {
         // Upon error, render the new page again, carry forward author info and display error message
