@@ -21,6 +21,8 @@
 
     npm i multer
 
+    npm uninstall multer
+
 
 ===== To Run the Server =====
 
