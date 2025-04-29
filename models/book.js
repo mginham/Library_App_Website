@@ -2,6 +2,7 @@
 
 // Require necessary libraries and global variables
 const mongoose = require('mongoose');
+const path = require('path');
 const coverImageBasePath = 'uploads/bookCovers'; // Path to book cover images folder
 
 // Create schema
@@ -35,6 +36,13 @@ const bookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Author'
+    }
+});
+
+// Create a virtual property for cover image paths
+bookSchema.virtual('coverImagePath').get(function() {
+    if(this.coverImageName != null) {
+        return path.join('/', coverImageBasePath, this.coverImageName);
     }
 });
 
