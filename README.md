@@ -23,6 +23,8 @@
 
     npm uninstall multer
 
+    npm i method-override
+
 
 ===== To Run the Server =====
 
