@@ -2,6 +2,7 @@
 
 // Require necessary libraries and global variables
 const mongoose = require('mongoose');
+const coverImageBasePath = 'uploads/bookCovers'; // Path to book cover images folder
 
 // Create schema
 const bookSchema = new mongoose.Schema({
@@ -39,3 +40,4 @@ const bookSchema = new mongoose.Schema({
 
 // Export module
 module.exports = mongoose.model('Book', bookSchema);
+module.exports.coverImageBasePath = coverImageBasePath;
