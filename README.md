@@ -1,5 +1,22 @@
 # Library_App_Website
 
+===== Introduction =====
+
+This project is dupe of cataloging websites such as Goodreads, where a user can store a virtual library of books and authors.
+
+
+===== Notes =====
+
+- "Routes" in this project are synonymous with controllers in MVC architecture.
+
+
+===== Ideas for Functionality to Add in the Future  =====
+
+- Prevent duplicate books/authors from being added.
+- Add book rating: stars and optional textfield.
+- User login
+- Ability to add/edit/delete a user profile
+
 
 ===== Setup =====
 
@@ -25,8 +42,3 @@
 ===== To Run the Server =====
 
     npm run devStart
-
-
-===== Notes =====
-
-- "Routes" in this project are synonymous with controllers in MVC architecture.
