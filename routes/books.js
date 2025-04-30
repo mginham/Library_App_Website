@@ -1,5 +1,3 @@
-/* routes\books.js */
-
 // Require necessary libraries and global variables
 const express = require('express');
 const router = express.Router();
@@ -77,31 +75,31 @@ router.post('/', async (req, res) => {
 // Route - Show selected book
 router.get('/:id', async (req, res) => {
     try {
-            // Get book info and associated author
-            const book = await Book.findById(req.params.id).populate('author').exec();
+        // Get book info and associated author
+        const book = await Book.findById(req.params.id).populate('author').exec();
 
-            // Display info on book page
-            res.render('books/show', {
-                book: book
-            });
-        } catch (err) {
-            // Redirect to homepage
-            res.redirect('/');
-        }
+        // Display info on book page
+        res.render('books/show', {
+            book: book
+        });
+    } catch (err) {
+        // Redirect to homepage
+        res.redirect('/');
+    }
 });
 
 // Route - Edit selected book
 router.get('/:id/edit', async (req, res) => {
     try {
-            // Get book info
-            const book = await Book.findById(req.params.id);
+        // Get book info
+        const book = await Book.findById(req.params.id);
 
-            // Display info on edit page
-            renderEditPage(res, book);
-        } catch (err) {
-            // Redirect to homepage
-            res.redirect('/');
-        }
+        // Display info on edit page
+        renderEditPage(res, book);
+    } catch (err) {
+        // Redirect to homepage
+        res.redirect('/');
+    }
 });
 
 // Route - Update selected book
@@ -180,7 +178,7 @@ async function renderEditPage(res, book, hasError = false) {
 
 function saveCover(book, coverEncoded) {
     // Check if cover is valid
-    if(coverEncoded == null) return;
+    if(coverEncoded == null || coverEncoded == '') return;
 
     // Check if cover + type is valid
     const cover = JSON.parse(coverEncoded);
@@ -207,7 +205,6 @@ async function renderFormPage(res, book, form, hasError = false) {
                 params.errorMessage = 'Error updating book';
             }
         }
-
 
         // Pass along full authors list and book info
         res.render(`books/${form}`, params);

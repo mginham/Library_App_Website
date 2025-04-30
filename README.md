@@ -19,10 +19,6 @@
 
     npm i body-parser
 
-    npm i multer
-
-    npm uninstall multer
-
     npm i method-override
 
 

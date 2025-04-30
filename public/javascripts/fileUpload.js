@@ -1,7 +1,7 @@
 // Get styles
 const rootStyles = window.getComputedStyle(document.documentElement);
 
-// Wait for style file to be loaded
+// Ensure stylesheet is accessible
 if (rootStyles.getPropertyValue('--book-cover-width-large') != null && rootStyles.getPropertyValue('--book-cover-width-large') != '') {
     ready();
 } else {

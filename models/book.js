@@ -1,5 +1,3 @@
-/* models\author.js */
-
 // Require necessary libraries and global variables
 const mongoose = require('mongoose');
 
