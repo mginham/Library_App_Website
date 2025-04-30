@@ -68,8 +68,7 @@ router.post('/', async (req, res) => {
         const newBook = await book.save();
 
         // Upon success, redirect to newly created author page
-        // res.redirect(`books/${newBook.id}`); // TODO: create book page and uncomment this line
-        res.redirect('books'); // TODO: delete once book page is live
+        res.redirect(`books/${newBook.id}`);
     } catch (err) {
         renderNewPage(res, book, true);
     }
@@ -91,24 +90,92 @@ router.get('/:id', async (req, res) => {
         }
 });
 
-// Middleware
-async function renderNewPage(res, book, hasError = false) {
+// Route - Edit selected book
+router.get('/:id/edit', async (req, res) => {
     try {
-        // Retrieve full authors list and book info
-        const authors = await Author.find({});
-        const params = {
-            authors: authors,
-            book: book
+            // Get book info
+            const book = await Book.findById(req.params.id);
+
+            // Display info on edit page
+            renderEditPage(res, book);
+        } catch (err) {
+            // Redirect to homepage
+            res.redirect('/');
+        }
+});
+
+// Route - Update selected book
+router.put('/:id', async (req, res) => {
+    let book;
+
+    try {
+        // Find the book with the given ID
+        book = await Book.findById(req.params.id);
+
+        // Get updated book info from user input
+        book.title = req.body.title;
+        book.author = req.body.author;
+        book.publishDate = new Date(req.body.publishDate);
+        book.pageCount = req.body.pageCount;
+        book.description = req.body.description;
+
+        // Only save an update cover if one is provided
+        if (req.body.cover != null && req.body.cover != '') {
+            saveCover(book, req.body.cover);
         }
 
-        if(hasError) params.errorMessage = 'Error creating book';
+        // Save the updated book info to the database
+        await book.save();
 
-        // Pass along full authors list and book info
-        res.render('books/new', params);
+        // Upon success, redirect to updated book page
+        res.redirect(`/books/${book.id}`);
     } catch (err) {
-        // Redirect to books page
-        res.redirect('/books');
+        if (book == null) {
+            // If book is not found, redirect to homepage
+            res.redirect('/');
+        } else {
+            // Upon error, if book exists, render the edit page again
+            renderEditPage(res, book, true);
+        }
     }
+});
+
+// Route - Delete selected book
+router.delete('/:id', async (req, res) => {
+    let book;
+
+    try {
+        // Find the book with the given ID
+        book = await Book.findById(req.params.id);
+
+        // Delete the book from the database
+        await book.deleteOne({_id: req.params.id});
+
+        // Upon success, redirect to the authors page
+        res.redirect('/books');
+    } catch (err) {
+        // If book is not found, redirect to homepage
+        if (book == null) {
+            res.redirect('/');
+        } else {
+            // Upon error, if book exists, render that book's page again
+            res.render('/books/show', {
+                book: book,
+                errorMessage: 'Could not remove book'
+            });
+        }
+    }
+});
+
+
+// Middleware
+
+async function renderNewPage(res, book, hasError = false) {
+    renderFormPage(res, book, 'new', hasError);
+}
+
+async function renderEditPage(res, book, hasError = false) {
+    renderFormPage(res, book, 'edit', hasError);
 }
 
 function saveCover(book, coverEncoded) {
@@ -123,6 +190,33 @@ function saveCover(book, coverEncoded) {
         book.coverImageType = cover.type;
     }
 }
+
+async function renderFormPage(res, book, form, hasError = false) {
+    try {
+        // Retrieve full authors list and book info
+        const authors = await Author.find({});
+        const params = {
+            authors: authors,
+            book: book
+        }
+
+        if(hasError) {
+            if (form === 'new') {
+                params.errorMessage = 'Error creating book';
+            } else if (form ==='edit') {
+                params.errorMessage = 'Error updating book';
+            }
+        }
+
+
+        // Pass along full authors list and book info
+        res.render(`books/${form}`, params);
+    } catch (err) {
+        // Redirect to books page
+        res.redirect('/books');
+    }
+}
+
 
 // Export module
 module.exports = router;

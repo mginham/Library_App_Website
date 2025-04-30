@@ -105,8 +105,8 @@ router.put('/:id', async (req, res) => {
         // Upon success, redirect to newly created author page
         res.redirect(`/authors/${author.id}`);
     } catch (err) {
-        // If author is not found, redirect to homepage
         if (author == null) {
+            // If author is not found, redirect to homepage
             res.redirect('/');
         } else {
             // Upon error, if author exists, render the edit page again, carry forward author info and display error message
