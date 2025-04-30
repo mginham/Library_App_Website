@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Import modules
 const Author = require('../models/author');
+const Book = require('../models/book');
 
 // Route - Get all authors
 router.get('/', async (req, res) => {
@@ -61,7 +62,7 @@ router.get('/:id', async (req, res) => {
     try {
         // Get author info and associated books
         const author = await Author.findById(req.params.id);
-        const books = await books.find({author: author.id}).limit(6).exec;
+        const books = await Book.find({author: author.id}).limit(6).exec();
 
         // TODO
         res.render('authors/show', {
