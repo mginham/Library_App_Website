@@ -75,8 +75,23 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Middleware
+// Route - Show selected book
+router.get('/:id', async (req, res) => {
+    try {
+            // Get book info and associated author
+            const book = await Book.findById(req.params.id).populate('author').exec();
 
+            // Display info on book page
+            res.render('books/show', {
+                book: book
+            });
+        } catch (err) {
+            // Redirect to homepage
+            res.redirect('/');
+        }
+});
+
+// Middleware
 async function renderNewPage(res, book, hasError = false) {
     try {
         // Retrieve full authors list and book info
